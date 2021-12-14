@@ -4,6 +4,7 @@ CC = "$(TOOL_CHAIN)gcc"
 CXX = "$(TOOL_CHAIN)g++"
 LINK = "$(TOOL_CHAIN)gcc"
 
+OBJCOPY = "$(TOOL_CHAIN)objcopy"
 
 CCFLAGS += -march=rv32imac#      #架构
 CCFLAGS += -mabi=ilp32#          #

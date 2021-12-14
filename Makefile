@@ -13,3 +13,6 @@ CSRC = $(shell find $(SDIR) -name *.c)
 
 all: $(CSRC)
 	@$(CC) $(CCFLAGS) $(INCS) $^ -o "$(TARGET).elf"
+
+hex: all
+	@$(OBJCOPY) -O ihex "$(TARGET).elf"  "$(TARGET).hex"
