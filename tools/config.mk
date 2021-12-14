@@ -2,3 +2,4 @@ TOOL_CHAIN = /home/xrj/MRS/MounRiver Studio/toolchain/RISC-V Embedded GCC/bin/ri
 #TOOL_CHAIN = ""
 
 OBJODIR = obj
+TARGET = obj/target
