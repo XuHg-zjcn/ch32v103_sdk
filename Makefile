@@ -10,10 +10,11 @@ SDIR += Debug
 SDIR += User
 
 CSRC = $(shell find $(SDIR) -name *.c)
+ASRC = $(shell find $(SDIR) -name *.S)
 
 all: build hex erase down verify reset
 
-build: $(CSRC)
+build: $(CSRC) $(ASRC)
 	@$(CC) $(CCFLAGS) $(INCS) $^ -o "$(TARGET).elf"
 
 hex: build
