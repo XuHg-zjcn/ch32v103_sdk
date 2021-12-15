@@ -28,6 +28,11 @@ CXXFLAGS += -std=gnu++11#        #
 ASMFLAGS += -Wall#               #
 
 
+OCDFLAGS += -f "/home/xrj/MRS/MounRiver Studio/toolchain/OpenOCD/bin/wch-riscv.cfg"
+OCDFLAGS += -c init
+OCDFLAGS += -c halt
+
+
 CSRC ?= $(wildcard ${DIR}/*.c)
 CPPSRC ?= $(wildcard ${DIR}/*.cpp)
 ASRCS ?= $(wildcard ${DIR}/*.S)

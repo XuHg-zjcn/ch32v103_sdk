@@ -16,3 +16,15 @@ all: $(CSRC)
 
 hex: all
 	@$(OBJCOPY) -O ihex "$(TARGET).elf"  "$(TARGET).hex"
+
+erase:
+	@$(OPENOCD) $(OCDFLAGS) -c "flash erase_sector wch_riscv 0 last" -c exit
+
+down:
+	@$(OPENOCD) $(OCDFLAGS) -c "program \"$(TARGET).hex\" 0x08000000" -c exit
+
+verify:
+	@$(OPENOCD) $(OCDFLAGS) -c "verify_image \"$(TARGET).hex\"" -c exit
+
+reset:
+	@$(OPENOCD) $(OCDFLAGS) -c reset -c exit
