@@ -9,23 +9,31 @@
 #include "debug.h"
 
 
-#define LED_PORT GPIOC
-#define LED_PIN  GPIO_Pin_13
 
 /* Global typedef */
 
 /* Global define */
+#define LED_PORT GPIOC
+#define LED_PIN  GPIO_Pin_13
 
 /* Global Variable */
 
-void My_GPIO_Init()
+
+/*******************************************************************************
+* Function Name  : GPIO_Toggle_INIT
+* Description    : Initializes GPIOA.0
+* Input          : None
+* Return         : None
+*******************************************************************************/
+void GPIO_Toggle_INIT(void)
 {
-	RCC_APB2PeriphResetCmd(RCC_APB2Periph_GPIOC, ENABLE);
-	GPIO_InitTypeDef gpio_init;
-	gpio_init.GPIO_Pin = LED_PIN;
-	gpio_init.GPIO_Speed = GPIO_Speed_50MHz;
-	gpio_init.GPIO_Mode = GPIO_Mode_Out_PP;
-	GPIO_Init(LED_PORT, &gpio_init);
+	GPIO_InitTypeDef  GPIO_InitStructure;
+
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = LED_PIN;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+	GPIO_Init(LED_PORT, &GPIO_InitStructure);
 }
 
 /*******************************************************************************
@@ -36,21 +44,20 @@ void My_GPIO_Init()
 *******************************************************************************/
 int main(void)
 {
-	SystemInit();
-	SystemCoreClockUpdate();
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	Delay_Init();
-	My_GPIO_Init();
+	//USART_Printf_Init(115200);
 	//printf("SystemClk:%d\r\n",SystemCoreClock);
 
-	//printf("This is printf example\r\n");
+	//printf("PC13(LED) Toggle TEST\r\n");
+	GPIO_Toggle_INIT();
 
 	while(1)
 	{
-		GPIO_SetBits(LED_PORT, LED_PIN);
-		Delay_Ms(100);
-		GPIO_ResetBits(LED_PORT, LED_PIN);
-		Delay_Ms(100);
+		GPIO_WriteBit(LED_PORT, LED_PIN, Bit_SET);
+		Delay_Ms(250);
+		GPIO_WriteBit(LED_PORT, LED_PIN, Bit_RESET);
+		Delay_Ms(250);
 	}
 }
 
