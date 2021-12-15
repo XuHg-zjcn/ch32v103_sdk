@@ -20,7 +20,13 @@ CCFLAGS += -Wunused#             #
 CCFLAGS += -Wuninitialized#      #
 CCFLAGS += -g#                   #调试
 CCFLAGS += -std=gnu99#           #标准
+CCFLAGS += -T .ld#               #链接器脚本
 CCFLAGS += -nostartfiles
+CCFLAGS += -Xlinker
+CCFLAGS += --gc-sections
+CCFLAGS += -Wl,-Map,"$(TARGET).map"#链接器参数
+CCFLAGS += --specs=nano.specs
+CCFLAGS += --specs=nosys.specs
 
 CXXFLAGS += -Wall#               #
 CXXFLAGS += -std=gnu++11#        #
