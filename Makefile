@@ -11,10 +11,12 @@ SDIR += User
 
 CSRC = $(shell find $(SDIR) -name *.c)
 
-all: $(CSRC)
+all: build hex erase down verify reset
+
+build: $(CSRC)
 	@$(CC) $(CCFLAGS) $(INCS) $^ -o "$(TARGET).elf"
 
-hex: all
+hex: build
 	@$(OBJCOPY) -O ihex "$(TARGET).elf"  "$(TARGET).hex"
 
 erase:
