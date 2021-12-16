@@ -1,11 +1,11 @@
 sinclude $(TOP_DIR)/tools/config.mk
 
-ASM = "$(TOOL_CHAIN)gcc"
-CC = "$(TOOL_CHAIN)gcc"
-CXX = "$(TOOL_CHAIN)g++"
-LINK = "$(TOOL_CHAIN)gcc"
+ASM = $(TOOL_CHAIN)gcc
+CC = $(TOOL_CHAIN)gcc
+CXX = $(TOOL_CHAIN)g++
+LINK = $(TOOL_CHAIN)gcc
 
-OBJCOPY = "$(TOOL_CHAIN)objcopy"
+OBJCOPY = $(TOOL_CHAIN)objcopy
 
 CCFLAGS += -march=rv32imac#      #架构
 CCFLAGS += -mabi=ilp32#          #
@@ -35,7 +35,7 @@ CXXFLAGS += -std=gnu++11#        #
 ASMFLAGS += -Wall#               #
 
 
-OCDFLAGS += -f "/home/xrj/MRS/MounRiver Studio/toolchain/OpenOCD/bin/wch-riscv.cfg"
+OCDFLAGS += -f $(OCD_CFG)
 
 
 CSRC ?= $(wildcard ${DIR}/*.c)
