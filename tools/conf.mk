@@ -1,5 +1,6 @@
 sinclude $(TOP_DIR)/tools/config.mk
 
+ASM = "$(TOOL_CHAIN)gcc"
 CC = "$(TOOL_CHAIN)gcc"
 CXX = "$(TOOL_CHAIN)g++"
 LINK = "$(TOOL_CHAIN)gcc"

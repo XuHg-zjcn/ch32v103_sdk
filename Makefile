@@ -8,12 +8,23 @@ sinclude $(TOP_DIR)/tools/src.mk
 CSRC = $(shell find $(SDIR) -name *.c)
 ASRC = $(shell find $(SDIR) -name *.S)
 
-all: build hex erase down verify reset
+OBJF = $(CSRC:%.c=obj/%.o) \
+       $(ASRC:%.S=obj/%.o)
 
-build: $(CSRC) $(ASRC)
-	@$(CC) $(CCFLAGS) $(INCS) $^ -o "$(TARGET).elf"
+all: hex erase down verify reset
 
-hex: build
+obj/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
+
+obj/%.o: %.S
+	@mkdir -p $(dir $@)
+	@$(ASM) $(ASMFLAGS) $(INCS) -c -o "$@" "$<"
+
+$(TARGET).elf: $(OBJF)
+	@$(CC) $(CCFLAGS) $(INCS) -o "$@" $^
+
+hex: $(TARGET).elf
 	@$(OBJCOPY) -O ihex "$(TARGET).elf"  "$(TARGET).hex"
 
 erase:
