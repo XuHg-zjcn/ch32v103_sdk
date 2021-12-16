@@ -38,3 +38,7 @@ verify:
 
 reset:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c reset -c exit
+
+clean:
+	@rm -rf $(OBJODIR)/*
+	@rm -f $(TARGET)*
