@@ -2,12 +2,8 @@ TOP_DIR = .
 
 sinclude $(TOP_DIR)/tools/conf.mk
 sinclude $(TOP_DIR)/tools/inc.mk
+sinclude $(TOP_DIR)/tools/src.mk
 
-SDIR += Core
-SDIR += Startup
-SDIR += Peripheral
-SDIR += Debug
-SDIR += User
 
 CSRC = $(shell find $(SDIR) -name *.c)
 ASRC = $(shell find $(SDIR) -name *.S)
