@@ -54,10 +54,10 @@ hex: $(TARGET).elf
 erase:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "flash erase_sector wch_riscv 0 last" -c exit
 
-down:
+down: hex
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "program \"$(TARGET).hex\" 0x08000000" -c exit
 
-verify:
+verify: hex
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "verify_image \"$(TARGET).hex\"" -c exit
 
 reset:
