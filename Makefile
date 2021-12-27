@@ -35,21 +35,21 @@ all: hex erase down verify reset
 
 obj/%.o: %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
+	$(CC) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
 
 obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	@$(CXX) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
+	$(CXX) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
 
 obj/%.o: %.S
 	@mkdir -p $(dir $@)
-	@$(ASM) $(ASMFLAGS) $(INCS) -c -o "$@" "$<"
+	$(ASM) $(ASMFLAGS) $(INCS) -c -o "$@" "$<"
 
 $(TARGET).elf: $(OBJF)
-	@$(CC) $(CCFLAGS) $(INCS) -o "$@" $^
+	$(CC) $(CCFLAGS) $(INCS) -o "$@" $^
 
 hex: $(TARGET).elf
-	@$(OBJCOPY) -O ihex "$(TARGET).elf"  "$(TARGET).hex"
+	$(OBJCOPY) -O ihex "$(TARGET).elf"  "$(TARGET).hex"
 
 erase:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "flash erase_sector wch_riscv 0 last" -c exit

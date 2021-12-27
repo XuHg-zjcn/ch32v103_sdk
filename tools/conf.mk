@@ -18,12 +18,20 @@
 
 sinclude $(TOP_DIR)/tools/config.mk
 
-ASM = $(TOOL_CHAIN)gcc
-CC = $(TOOL_CHAIN)gcc
-CXX = $(TOOL_CHAIN)g++
-LINK = $(TOOL_CHAIN)gcc
+ifeq ($(VERBOSE),YES)
+    ASM     = $(TOOL_CHAIN)gcc
+    CC      = $(TOOL_CHAIN)gcc
+    CXX     = $(TOOL_CHAIN)g++
+    LINK    = $(TOOL_CHAIN)gcc
+    OBJCOPY = $(TOOL_CHAIN)objcopy
+else
+    ASM     = @echo "ASM      $<"; $(TOOL_CHAIN)gcc
+    CC      = @echo "CC       $<"; $(TOOL_CHAIN)gcc
+    CXX     = @echo "CXX      $<"; $(TOOL_CHAIN)g++
+    LINK    = @echo "LINK     $<"; $(TOOL_CHAIN)gcc
+    OBJCOPY = @echo "OBJCOPY  $<"; $(TOOL_CHAIN)objcopy
+endif
 
-OBJCOPY = $(TOOL_CHAIN)objcopy
 
 CCFLAGS += -march=rv32imac#      #架构
 CCFLAGS += -mabi=ilp32#          #
