@@ -24,9 +24,11 @@ sinclude $(TOP_DIR)/tools/src.mk
 
 
 CSRC = $(shell find $(SDIR) -name *.c)
+CXXSRC = $(shell find $(SDIR) -name *.cpp)
 ASRC = $(shell find $(SDIR) -name *.S)
 
 OBJF = $(CSRC:%.c=obj/%.o) \
+       $(CXXSRC:%.cpp=obj/%.o) \
        $(ASRC:%.S=obj/%.o)
 
 all: hex erase down verify reset
@@ -34,6 +36,10 @@ all: hex erase down verify reset
 obj/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(CC) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
+
+obj/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	@$(CXX) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
 
 obj/%.o: %.S
 	@mkdir -p $(dir $@)
