@@ -1,6 +1,6 @@
 ##########################################################################
 #    用于编译和下载的Makefile
-#    Copyright (C) 2021  Xu Ruijun
+#    Copyright (C) 2021-2022  Xu Ruijun
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published by
@@ -39,7 +39,7 @@ obj/%.o: %.c
 
 obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
+	$(CXX) $(CXXFLAGS) $(INCS) -c -o "$@" "$<"
 
 obj/%.o: %.S
 	@mkdir -p $(dir $@)

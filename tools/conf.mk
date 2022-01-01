@@ -1,6 +1,6 @@
 ###########################################################################
 #    编译高级设置
-#    Copyright (C) 2021  Xu Ruijun
+#    Copyright (C) 2021-2022  Xu Ruijun
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Lesser General Public License as published by
@@ -55,8 +55,16 @@ CCFLAGS += -Wl,-Map,"$(TARGET).map"#链接器参数
 CCFLAGS += --specs=nano.specs
 CCFLAGS += --specs=nosys.specs
 
-CXXFLAGS += -Wall#               #
-CXXFLAGS += -std=gnu++11#        #
+CXXFLAGS += -march=rv32imac#      #架构
+CXXFLAGS += -mabi=ilp32#          #
+CXXFLAGS += -msmall-data-limit=8# #
+CXXFLAGS += -mno-save-restore#    #
+CXXFLAGS += -Os#                  #最小文件大小优化
+CXXFLAGS += -Wall#                #
+CXXFLAGS += -std=gnu++11#         #
+CXXFLAGS += -Wl,-Map,"$(TARGET).map"#链接器参数
+CXXFLAGS += --specs=nano.specs
+CXXFLAGS += --specs=nosys.specs
 
 ASMFLAGS += -Wall#               #
 
