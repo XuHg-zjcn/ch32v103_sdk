@@ -7,7 +7,7 @@
 *******************************************************************************/
 
 #include "debug.h"
-
+#include "app.h"
 
 
 /* Global typedef */
@@ -54,10 +54,7 @@ int main(void)
 
 	while(1)
 	{
-		GPIO_WriteBit(LED_PORT, LED_PIN, Bit_SET);
-		Delay_Ms(250);
-		GPIO_WriteBit(LED_PORT, LED_PIN, Bit_RESET);
-		Delay_Ms(250);
+		app();
 	}
 }
 
