@@ -31,7 +31,7 @@ OBJF = $(CSRC:%.c=obj/%.o) \
        $(CXXSRC:%.cpp=obj/%.o) \
        $(ASRC:%.S=obj/%.o)
 
-all: hex erase down verify reset
+all: $(TARGET).hex erase down verify reset
 
 obj/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -46,19 +46,19 @@ obj/%.o: %.S
 	$(ASM) $(ASMFLAGS) $(INCS) -c -o "$@" "$<"
 
 $(TARGET).elf: $(OBJF)
-	$(CC) $(CCFLAGS) $(INCS) -o "$@" $^
+	$(LINK) $(LDFLAGS) -o "$@" $^
 
-hex: $(TARGET).elf
-	$(OBJCOPY) -O ihex "$(TARGET).elf"  "$(TARGET).hex"
+$(TARGET).hex: $(TARGET).elf
+	$(OBJCOPY) -O ihex "$<" "$@"
 
 erase:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "flash erase_sector wch_riscv 0 last" -c exit
 
-down: hex
-	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "program \"$(TARGET).hex\" 0x08000000" -c exit
+down: $(TARGET).hex
+	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "program \"$<\" 0x08000000" -c exit
 
-verify: hex
-	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "verify_image \"$(TARGET).hex\"" -c exit
+verify: $(TARGET).hex
+	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "verify_image \"$<\"" -c exit
 
 reset:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c reset -c exit

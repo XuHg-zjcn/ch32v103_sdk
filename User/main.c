@@ -50,7 +50,7 @@ int main(void)
 	//printf("SystemClk:%d\r\n",SystemCoreClock);
 
 	//printf("PC13(LED) Toggle TEST\r\n");
-	GPIO_Toggle_INIT();
+	//GPIO_Toggle_INIT();
 
 	while(1)
 	{

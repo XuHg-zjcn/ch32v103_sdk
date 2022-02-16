@@ -22,52 +22,50 @@ ifeq ($(VERBOSE),YES)
     ASM     = $(TOOL_CHAIN)gcc
     CC      = $(TOOL_CHAIN)gcc
     CXX     = $(TOOL_CHAIN)g++
-    LINK    = $(TOOL_CHAIN)gcc
+    LINK    = $(TOOL_CHAIN)g++
     OBJCOPY = $(TOOL_CHAIN)objcopy
 else
     ASM     = @echo "ASM      $<"; $(TOOL_CHAIN)gcc
     CC      = @echo "CC       $<"; $(TOOL_CHAIN)gcc
     CXX     = @echo "CXX      $<"; $(TOOL_CHAIN)g++
-    LINK    = @echo "LINK     $<"; $(TOOL_CHAIN)gcc
+    LINK    = @echo "LINK     $@"; $(TOOL_CHAIN)g++
     OBJCOPY = @echo "OBJCOPY  $<"; $(TOOL_CHAIN)objcopy
 endif
 
 
-CCFLAGS += -march=rv32imac#      #架构
-CCFLAGS += -mabi=ilp32#          #
-CCFLAGS += -msmall-data-limit=8# #
-CCFLAGS += -mno-save-restore#    #
-CCFLAGS += -Os#                  #最小文件大小优化
-CCFLAGS += -fmessage-length=0#   #
-CCFLAGS += -fsigned-char#        #
-CCFLAGS += -ffunction-sections#  #
-CCFLAGS += -fdata-sections#      #
-CCFLAGS += -fno-common#          #
-CCFLAGS += -Wunused#             #
-CCFLAGS += -Wuninitialized#      #
-CCFLAGS += -g#                   #调试
-CCFLAGS += -std=gnu99#           #标准
-CCFLAGS += -T .ld#               #链接器脚本
-CCFLAGS += -nostartfiles
-CCFLAGS += -Xlinker
-CCFLAGS += --gc-sections
-CCFLAGS += -Wl,-Map,"$(TARGET).map"#链接器参数
-CCFLAGS += --specs=nano.specs
-CCFLAGS += --specs=nosys.specs
+#更多关于编译器参数请见`man gcc`
+COMFLAGS += -march=rv32imac#      #架构
+COMFLAGS += -mabi=ilp32#          #浮点选项，不用浮点扩展指令
+COMFLAGS += -msmall-data-limit=8# #
+COMFLAGS += -mno-save-restore#    #
+COMFLAGS += -fmessage-length=0#   #
+COMFLAGS += -fsigned-char#        #
+COMFLAGS += -ffunction-sections#  #每个函数作为sections
+COMFLAGS += -fdata-sections#      #每个数据作为sections
+COMFLAGS += -fno-common#          #
+CXXFLAGS += -Wall#                #开启所有警告
+COMFLAGS += -Wunused#             #开启无用变量警告
+COMFLAGS += -Wuninitialized#      #开启无初始化警告
+#COMFLAGS += -g#                  #调试
 
-CXXFLAGS += -march=rv32imac#      #架构
-CXXFLAGS += -mabi=ilp32#          #
-CXXFLAGS += -msmall-data-limit=8# #
-CXXFLAGS += -mno-save-restore#    #
+CCFLAGS := $(COMFLAGS)
+CCFLAGS += -std=gnu99#            #标准
+CCFLAGS += -Os#                   #最小文件大小优化
+
+CXXFLAGS := $(COMFLAGS)
+CXXFLAGS += -std=gnu++11#         #标准
 CXXFLAGS += -Os#                  #最小文件大小优化
-CXXFLAGS += -Wall#                #
-CXXFLAGS += -std=gnu++11#         #
-CXXFLAGS += -Wl,-Map,"$(TARGET).map"#链接器参数
-CXXFLAGS += --specs=nano.specs
-CXXFLAGS += --specs=nosys.specs
 
-ASMFLAGS += -Wall#               #
+ASMFLAGS := $(COMFLAGS)
 
+LDFLAGS := $(COMFLAGS)
+LDFLAGS += -T .ld#               #链接器脚本
+LDFLAGS += -nostartfiles#        #不用标准启动文件
+LDFLAGS += -Xlinker#             #
+LDFLAGS += --gc-sections#        #删除无用sections
+LDFLAGS += -Wl,-Map,"$(TARGET).map"#链接器参数
+LDFLAGS += --specs=nano.specs
+LDFLAGS += --specs=nosys.specs
 
 OCDFLAGS += -f $(OCD_CFG)
 
