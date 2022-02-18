@@ -63,6 +63,12 @@ verify: $(TARGET).hex
 reset:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c reset -c exit
 
+# clean output dir 'obj/*', keep symbol link in top dir
 clean:
-	@rm -rf $(OBJODIR)/*
 	@rm -f $(TARGET)*
+	@for file in $(OBJODIR)/*; \
+	do \
+		if [ ! -L $$file ]; then \
+			rm -rf $$file; \
+		fi \
+	done
