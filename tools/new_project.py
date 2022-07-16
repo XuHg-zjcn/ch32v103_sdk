@@ -74,7 +74,7 @@ class NewProject:
 
         dst_root = self.d
         lst = list(listdir_odir(src_root))
-        removes = ['obj', 'User', 'tools']
+        removes = ['obj', 'User', 'tools', '.git']
         for r in removes:
             try:
                 lst.remove(r)
