@@ -1,6 +1,6 @@
 ##########################################################################
-# 根目录下的Makefile
-# Copyright (C) 2021-2022  Xu Ruijun
+# 编译和链接程序
+# Copyright (C) 2022  Xu Ruijun
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Lesser General Public License as published by
@@ -16,22 +16,32 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ##########################################################################
 
-TOP_DIR = .
-
-sinclude $(TOP_DIR)/tools/conf.mk
-
-all: $(TARGET).hex erase down verify reset
-
-sinclude $(TOP_DIR)/tools/build.mk
-sinclude $(TOP_DIR)/tools/mcu.mk
+sinclude $(TOP_DIR)/tools/inc.mk
+sinclude $(TOP_DIR)/tools/src.mk
 
 
-# clean output dir 'obj/*', keep symbol link in top dir
-clean:
-	@rm -f $(TARGET)*
-	@for file in $(OBJODIR)/*; \
-	do \
-		if [ ! -L $$file ]; then \
-			rm -rf $$file; \
-		fi \
-	done
+CSRC = $(shell find $(SDIR) -name *.c)
+CXXSRC = $(shell find $(SDIR) -name *.cpp)
+ASRC = $(shell find $(SDIR) -name *.S)
+
+OBJF = $(CSRC:%.c=obj/%.o) \
+       $(CXXSRC:%.cpp=obj/%.o) \
+       $(ASRC:%.S=obj/%.o)
+
+obj/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CCFLAGS) $(INCS) -c -o "$@" "$<"
+
+obj/%.o: %.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCS) -c -o "$@" "$<"
+
+obj/%.o: %.S
+	@mkdir -p $(dir $@)
+	$(ASM) $(ASMFLAGS) $(INCS) -c -o "$@" "$<"
+
+$(TARGET).elf: $(OBJF)
+	$(LINK) $(LDFLAGS) -o "$@" $^
+
+$(TARGET).hex: $(TARGET).elf
+	$(OBJCOPY) -O ihex "$<" "$@"
