@@ -1,10 +1,12 @@
 /********************************** (C) COPYRIGHT *******************************
-* File Name          : system_ch32v10x.c
-* Author             : WCH
-* Version            : V1.0.0
-* Date               : 2020/04/30
-* Description        : CH32V10x Device Peripheral Access Layer System Source File.
-*********************************************************************************/
+ * File Name          : system_ch32v10x.c
+ * Author             : WCH
+ * Version            : V1.0.0
+ * Date               : 2020/04/30
+ * Description        : CH32V10x Device Peripheral Access Layer System Source File.
+ * Copyright (c) 2021 Nanjing Qinheng Microelectronics Co., Ltd.
+ * SPDX-License-Identifier: Apache-2.0
+ *********************************************************************************/
 #include "ch32v10x.h" 
 
 /* 
@@ -14,23 +16,23 @@
 */
 /* #define SYSCLK_FREQ_HSE    HSE_VALUE */ 
 /* #define SYSCLK_FREQ_24MHz  24000000  */ 
-/* #define SYSCLK_FREQ_48MHz  48000000  */
-/* #define SYSCLK_FREQ_56MHz  56000000  */
+/* #define SYSCLK_FREQ_48MHz  48000000  */  
+/* #define SYSCLK_FREQ_56MHz  56000000  */  
 #define SYSCLK_FREQ_72MHz  72000000
 
 /* Clock Definitions */
 #ifdef SYSCLK_FREQ_HSE
-	uint32_t SystemCoreClock         = SYSCLK_FREQ_HSE;          /* System Clock Frequency (Core Clock) */
+  uint32_t SystemCoreClock         = SYSCLK_FREQ_HSE;          /* System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_24MHz
-	uint32_t SystemCoreClock         = SYSCLK_FREQ_24MHz;        /* System Clock Frequency (Core Clock) */
+  uint32_t SystemCoreClock         = SYSCLK_FREQ_24MHz;        /* System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_48MHz
-	uint32_t SystemCoreClock         = SYSCLK_FREQ_48MHz;        /* System Clock Frequency (Core Clock) */
+  uint32_t SystemCoreClock         = SYSCLK_FREQ_48MHz;        /* System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_56MHz
-	uint32_t SystemCoreClock         = SYSCLK_FREQ_56MHz;        /* System Clock Frequency (Core Clock) */
+  uint32_t SystemCoreClock         = SYSCLK_FREQ_56MHz;        /* System Clock Frequency (Core Clock) */
 #elif defined SYSCLK_FREQ_72MHz
-	uint32_t SystemCoreClock         = SYSCLK_FREQ_72MHz;        /* System Clock Frequency (Core Clock) */
+  uint32_t SystemCoreClock         = SYSCLK_FREQ_72MHz;        /* System Clock Frequency (Core Clock) */
 #else /* HSI Selected as System Clock source */
-	uint32_t SystemCoreClock         = HSI_VALUE;                /* System Clock Frequency (Core Clock) */
+  uint32_t SystemCoreClock         = HSI_VALUE;                /* System Clock Frequency (Core Clock) */
 #endif
 
 __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
@@ -52,13 +54,14 @@ static void SetSysClock(void);
 #endif
 
 
-/******************************************************************************************
-* Function Name  : SystemInit
-* Description    : Setup the microcontroller system Initialize the Embedded Flash Interface, 
-*                  the PLL and update the SystemCoreClock variable.
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SystemInit
+ *
+ * @brief   Setup the microcontroller system Initialize the Embedded Flash Interface,
+ *        the PLL and update the SystemCoreClock variable.
+ *
+ * @return  none
+ */
 void SystemInit (void)
 {
   RCC->CTLR |= (uint32_t)0x00000001;
@@ -71,12 +74,13 @@ void SystemInit (void)
 }
 
 
-/******************************************************************************************
-* Function Name  : SystemCoreClockUpdate
-* Description    : Update SystemCoreClock variable according to Clock Register Values.
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SystemCoreClockUpdate
+ *
+ * @brief   Update SystemCoreClock variable according to Clock Register Values.
+ *
+ * @return  none
+ */
 void SystemCoreClockUpdate (void)
 {
   uint32_t tmp = 0, pllmull = 0, pllsource = 0;
@@ -121,12 +125,13 @@ void SystemCoreClockUpdate (void)
 }
 
 
-/******************************************************************************************
-* Function Name  : SetSysClock
-* Description    : Configures the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers. 
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SetSysClock
+ *
+ * @brief   Configures the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers.
+ *
+ * @return  none
+ */
 static void SetSysClock(void)
 {
 #ifdef SYSCLK_FREQ_HSE
@@ -149,12 +154,13 @@ static void SetSysClock(void)
 
 #ifdef SYSCLK_FREQ_HSE
 
-/******************************************************************************************
-* Function Name  : SetSysClockToHSE
-* Description    : Sets HSE as System clock source and configure HCLK, PCLK2 and PCLK1 prescalers.
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SetSysClockToHSE
+ *
+ * @brief   Sets HSE as System clock source and configure HCLK, PCLK2 and PCLK1 prescalers.
+ *
+ * @return  none
+ */
 static void SetSysClockToHSE(void)
 {
   __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
@@ -211,12 +217,13 @@ static void SetSysClockToHSE(void)
 
 #elif defined SYSCLK_FREQ_24MHz
 
-/******************************************************************************************
-* Function Name  : SetSysClockTo24
-* Description    : Sets System clock frequency to 24MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SetSysClockTo24
+ *
+ * @brief   Sets System clock frequency to 24MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
+ *
+ * @return  none
+ */
 static void SetSysClockTo24(void)
 {
   __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
@@ -282,12 +289,13 @@ static void SetSysClockTo24(void)
 
 #elif defined SYSCLK_FREQ_48MHz
 
-/******************************************************************************************
-* Function Name  : SetSysClockTo48
-* Description    : Sets System clock frequency to 48MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SetSysClockTo48
+ *
+ * @brief   Sets System clock frequency to 48MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
+ *
+ * @return  none
+ */
 static void SetSysClockTo48(void)
 {
   __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
@@ -355,12 +363,13 @@ static void SetSysClockTo48(void)
 
 #elif defined SYSCLK_FREQ_56MHz
 
-/******************************************************************************************
-* Function Name  : SetSysClockTo56
-* Description    : Sets System clock frequency to 56MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SetSysClockTo56
+ *
+ * @brief   Sets System clock frequency to 56MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
+ *
+ * @return  none
+ */
 static void SetSysClockTo56(void)
 {
   __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
@@ -428,12 +437,13 @@ static void SetSysClockTo56(void)
 
 #elif defined SYSCLK_FREQ_72MHz
 
-/******************************************************************************************
-* Function Name  : SetSysClockTo72
-* Description    : Sets System clock frequency to 72MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
-* Input          : None
-* Return         : None
-*******************************************************************************************/
+/*********************************************************************
+ * @fn      SetSysClockTo72
+ *
+ * @brief   Sets System clock frequency to 72MHz and configure HCLK, PCLK2 and PCLK1 prescalers.
+ *
+ * @return  none
+ */
 static void SetSysClockTo72(void)
 {
   __IO uint32_t StartUpCounter = 0, HSEStatus = 0;
