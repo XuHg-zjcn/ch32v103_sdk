@@ -17,6 +17,10 @@ CH32V103C8T6开发环境
 注：MounRiver工具链的编译器版本比较旧，可以去[xPack](https://github.com/xpack-dev-tools/riscv-none-embed-gcc-xpack)下载最新版的RISC-V GCC编译器,  
 把上方的`TOOL_CHAIN`注释掉（为了方便恢复，不建议删除），再把后面的`#TOOL_CHAIN`注释去掉，改成自己的路径。
 
+使用USB烧录程序
+1. 安装Linux上的第三方[wchisp](https://github.com/ch32-rs/wchisp)
+2. 修改tools/config.mk中的`MCU_OP`为`isp`
+
 #### 使用说明
 
 1.  修改`tools`文件夹下的`inc.mk`和`src.mk`来修改所需编译文件和头文件目录

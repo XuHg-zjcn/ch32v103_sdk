@@ -20,7 +20,7 @@ TOP_DIR = .
 
 sinclude $(TOP_DIR)/tools/conf.mk
 
-all: $(TARGET).hex erase down verify reset
+all: $(TARGET).hex flash
 
 sinclude $(TOP_DIR)/tools/build.mk
 sinclude $(TOP_DIR)/tools/mcu.mk

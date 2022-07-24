@@ -16,14 +16,35 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #############################################################################
 
-erase:
+ocd_erase:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "flash erase_sector wch_riscv 0 last" -c exit
 
-down: $(TARGET).hex
+ocd_prog: $(TARGET).hex
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "program \"$<\" 0x08000000" -c exit
 
-verify: $(TARGET).hex
+ocd_verify: $(TARGET).hex
 	@$(OPENOCD) $(OCDFLAGS) -c init -c halt -c "verify_image \"$<\"" -c exit
 
-reset:
+ocd_reset:
 	@$(OPENOCD) $(OCDFLAGS) -c init -c reset -c exit
+
+ocd_flash: ocd_erase ocd_prog ocd_verify ocd_reset
+
+
+isp_erase:
+	@$(WCHISP) erase
+
+isp_verify: $(TARGET).hex
+	@$(WCHISP) verify "$<"
+
+isp_reset:
+	@$(WCHISP) reset
+
+isp_flash: $(TARGET).hex
+	@$(WCHISP) flash "$<"
+
+
+erase: $(MCU_OP)_erase
+verify: $(MCU_OP)_verify
+reset: $(MCU_OP)_reset
+flash: $(MCU_OP)_flash

@@ -23,6 +23,13 @@ TOOL_CHAIN = $(MRS_BASE)"/RISC-V Embedded GCC/bin/riscv-none-embed-"
 OPENOCD = $(MRS_BASE)/OpenOCD/bin/openocd
 OCD_CFG = $(MRS_BASE)/OpenOCD/bin/wch-riscv.cfg
 
+WCHISP = wchisp
+
+#MCU操作(擦除,烧录,验证,复位等)的方式
+#ocd: 使用OpenOCD操作
+#isp: 使用WCHISP操作
+MCU_OP = ocd
+
 VERBOSE ?= NO
 
 #从xPack下载的编译器，版本较新。如需使用，请修改路径。
