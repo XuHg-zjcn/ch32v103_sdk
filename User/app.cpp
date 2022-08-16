@@ -21,6 +21,7 @@
 
 int app(void)
 {
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
 	C_Pin led = C_Pin(2, 13);
 	led.loadXCfg(GPIO_GP_PP0);
 	while(1){
