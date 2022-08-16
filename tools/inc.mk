@@ -8,3 +8,4 @@ INCS += -I $(TOP_DIR)/my_libs/common/fonts
 INCS += -I $(TOP_DIR)/my_libs/common/dataflow/Inc
 INCS += -I $(TOP_DIR)/my_libs/common/others/Inc
 INCS += -I $(TOP_DIR)/my_libs/interface/Inc
+INCS += -I $(TOP_DIR)/my_libs/sdbg/include
